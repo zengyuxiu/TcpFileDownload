@@ -2,7 +2,7 @@ package main
 
 import (
 	"FileDownload/client"
-	"fmt"
+	"FileDownload/server"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 )
@@ -20,10 +20,10 @@ var clientCommand = cli.Command{
 			Usage: "List",
 		},
 	},
-	Action: func(ctx cli.Context) error {
-		if len(ctx.Args()) < 1 {
-			return fmt.Errorf("Missing command")
-		}
+	Action: func(ctx *cli.Context) error {
+		/*		if len(ctx.Args()) < 1 {
+				return fmt.Errorf("Missing command")
+			}*/
 		list := ctx.Bool("l")
 		if list == false {
 			Path := ctx.String("d")
@@ -40,18 +40,8 @@ var clientCommand = cli.Command{
 var serverCommand = cli.Command{
 	Name:  "server",
 	Usage: `Run Server`,
-	Action: func(ctx cli.Context) error {
-		if len(ctx.Args()) < 1 {
-			return fmt.Errorf("Missing command")
-		}
-		var cmdArray []string
-		for _, arg := range ctx.Args() {
-			cmdArray = append(cmdArray, arg)
-		}
-		Path := cmdArray[0]
-		if Path != "" {
-			log.Infof("Path : %v", Path)
-		}
+	Action: func(ctx *cli.Context) error {
+		server.RunServer()
 		return nil
 	},
 }
