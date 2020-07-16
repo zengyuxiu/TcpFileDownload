@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-	"time"
 )
 
 const service = ":1200"
@@ -26,7 +25,6 @@ func RunServer() {
 	}
 }
 func handleClient(conn net.Conn) {
-	conn.SetReadDeadline(time.Now().Add(2 * time.Minute))
 	request := make([]byte, 128)
 	defer conn.Close()
 
@@ -39,29 +37,24 @@ func handleClient(conn net.Conn) {
 		if length == 0 {
 			break
 		} else if strings.TrimSpace(string(request[:length])) == "tree" {
-			out, err := exec.Command("bash", "-c", "ls").Output()
+			out, err := exec.Command("bash", "-c", "tree").Output()
 			if err != nil {
 				conn.Write([]byte(err.Error()))
 				break
 			} else {
 				conn.Write([]byte(out))
+				break
 			}
 		} else {
 			path := strings.TrimSpace(string(request[:length]))
-			file, err := os.Open(path)
+			context, err := ioutil.ReadFile(path)
 			if err != nil {
 				//conn.Write([]byte(err.Error()))
 				log.Errorf("Fatal error: %v", err)
 				break
 			} else {
-				context, err := ioutil.ReadAll(file)
-				if err != nil {
-					//conn.Write([]byte(err.Error()))
-					log.Errorf("Fatal error: %v", err)
-					break
-				} else {
-					conn.Write(context)
-				}
+				conn.Write(context)
+				break
 			}
 		}
 	}
