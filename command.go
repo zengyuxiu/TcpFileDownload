@@ -25,21 +25,21 @@ var clientCommand = cli.Command{
 		},
 
 		cli.BoolFlag{
-			Name:  "t",
-			Usage: "time",
+			Name:  "m",
+			Usage: "message",
 		},
 	},
 	Action: func(ctx *cli.Context) error {
 		protocol := ctx.String("p")
 		list := ctx.Bool("l")
-		time := ctx.Bool("t")
+		msg := ctx.Bool("m")
 		path := ctx.String("d")
 
 		if protocol == "tcp" {
 			client.HandleTcp(list, path)
 		} else if protocol == "udp" {
 			log.Info("udp client\n")
-			if time {
+			if msg {
 				client.HandleUdp()
 			} else {
 				return nil

@@ -1,18 +1,22 @@
 package server
 
 import (
+	"fmt"
 	"net"
-	"time"
 )
 
 func handleUdpClient(conn *net.UDPConn) {
 	var buf [512]byte
-	_, addr, err := conn.ReadFromUDP(buf[0:])
+	fmt.Print("> ")
+	n, addr, err := conn.ReadFromUDP(buf[0:])
+	fmt.Println(string(buf[0:n]))
 	if err != nil {
 		return
 	}
-	daytime := time.Now().String()
-	conn.WriteToUDP([]byte(daytime), addr)
+	var message string
+	fmt.Print("< ")
+	_, err = fmt.Scanf("%s\n", &message)
+	conn.WriteToUDP([]byte(message), addr)
 }
 func UdpServer() {
 	addr_server, err := net.ResolveUDPAddr("udp4", addrUdpServer)
