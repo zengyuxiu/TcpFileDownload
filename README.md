@@ -1,11 +1,15 @@
-# FileDownload
+# Go Web Server 
 ----------
 
-## function
+## Function
+
 ### TCP
 * client调用tree命令显示server的pwd
 * 根据client提供路径下载文件到client的pwd
+### UDP
+* 基于UDP的授时服务
 
 ## TODO
-* 断点续传
-* 多线程传输
+* 文件断点续传
+* 文件多线程传输
+* 使用协程管理udp的read、write 
