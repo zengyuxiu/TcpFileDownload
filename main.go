@@ -10,7 +10,7 @@ const usage = "A Web Sever App"
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "fdl"
+	app.Name = "WebServer"
 	app.Usage = usage
 	app.Commands = []cli.Command{
 		clientCommand,
