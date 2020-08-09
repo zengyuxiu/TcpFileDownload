@@ -13,7 +13,7 @@ func HandleTcp(list bool, path string) {
 	if list == false {
 		if path != "" {
 			log.Infof("Path : %v", path)
-			Download(path)
+			DownloadV2(path)
 		}
 	} else {
 		ListDir()
