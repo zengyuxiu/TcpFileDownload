@@ -50,7 +50,8 @@ OPTIONS:
    
       -l        List
 
-      -t        time
+      -m        message
+
    
 ### server
 NAME:
